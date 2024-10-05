@@ -1,4 +1,4 @@
-### Python Script to scrape NEDDC website for bin collection data ###
+### Python Script to scrape NEDDC website for bin collection data and add to Home Assistant ###
 
 Requires a selenium grid server to scrape the site
 
