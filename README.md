@@ -27,29 +27,45 @@ title: Next Bin Collection
 ignore_line_breaks: true
 entities: sensor.next_bin_collection
 content: >
-  {% set next_collection_date_str = states('sensor.next_bin_collection') %} {%
-  set next_collection_date = strptime(next_collection_date_str, '%d/%m/%Y') %}
+  {% set today_date = now().date() %}
+  {% set tomorrow_date = now().date() + timedelta(days=1) %}
+  {% set next_collection_date_str = states('sensor.next_bin_collection') %}
+  {% set next_collection_date = strptime(next_collection_date_str, '%d/%m/%Y') %}
 
   <table style="width:100%; border-collapse: collapse;">
       <tr>
         <td rowspan="3" style="text-align:center; vertical-align:middle;">
           {% if 'Burgundy Bin' in states('sensor.bin_colour') %}
-            <img src="/hacsfiles/assets/red.png" alt="Red bin" height="100"><br> Red Bin
+            <img src="/hacsfiles/assets/red.png" alt="Red bin" height="100">
+            <br>
+            Red Bin
           {% endif %}
           {% if 'Black Bin' in states('sensor.bin_colour') %}
-            <img src="/hacsfiles/assets/black.png" alt="Black bin" height="100"><br> Black Bin
+            <img src="/hacsfiles/assets/black.png" alt="Black bin" height="100">
+            <br>
+            Black Bin
           {% endif %}
           {% if 'Green Bin' in states('sensor.bin_colour') %}
-            <img src="/hacsfiles/assets/green.png" alt="Green bin" height="100"><br> Green Bin
+            <img src="/hacsfiles/assets/green.png" alt="Green bin" height="100">
+            <br>
+            Green Bin
           {% endif %}
           {% if 'Burgundy & Green Bins' in states('sensor.bin_colour') %}
-            <img src="/hacsfiles/assets/red_green.png" alt="Red and Green bins" height="100"><br> Red and Green Bins
+            <img src="/hacsfiles/assets/red_green.png" alt="Red and Green bins" height="100">
+            <br>
+            Red and Green Bins
           {% endif %}
         </td>
       </tr>
       <tr>
         <td style="vertical-align:middle; text-align:center;">
+        {% if as_timestamp(next_collection_date) == as_timestamp(today_date) %}
+          Today
+        {% elif as_timestamp(next_collection_date) == as_timestamp(tomorrow_date) %}
+          Tomorrow
+        {% elif as_timestamp(next_collection_date) > as_timestamp(today_date) %}
           {{ as_datetime(next_collection_date).strftime('%A') }}
+        {% endif %}
         </td>
       </tr>
       <tr>
