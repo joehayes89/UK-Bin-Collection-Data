@@ -1,6 +1,9 @@
 ### Python Script to scrape NEDDC website for bin collection data and add to Home Assistant ###
 
 Requires a selenium grid server to scrape the site
+````
+docker run -d -p 4444:4444 --name selenium-chrome selenium/standalone-chrome
+````
 
 Replace the values in the constants.py file
 
